@@ -57,7 +57,7 @@ void straightInsertSort(int* in_arr, int size)
 每次间隔减少，都再次对得到的每个数组进行直接插入排序。
 */
 void shellSort(int* in_arr, int size) {
-	int len = size / 2;
+	int len = size / 2;//增量
 	while (len >= 1) {
 		for (int i = 0; i < len; i++) {
 			std::cout << "当前位置：" << i + 1 << std::endl;
@@ -65,27 +65,29 @@ void shellSort(int* in_arr, int size) {
 			bool mark_insert = false;
 			for (int j = i + len; j < size; j += len) {
 				std::cout << "比较位置：" << j + 1 << std::endl;
+				//对按照增量进行划分的数组进行插入排序
 				for (int m = i; m < j; m += len) {
 					if (in_arr[j] < in_arr[m]) {
 						pos_insert = m;
 						mark_insert = true;
+
+						//进行插入操作
+						std::cout << j + 1 << "号位数字插入位置：" << pos_insert + 1 << std::endl;
+						int insert_num = in_arr[j];
+						for (int k = j; k > pos_insert; k -= len) {
+							in_arr[k] = in_arr[k - len];
+						}
+						in_arr[pos_insert] = insert_num;
+						std::cout << "插入后数组：";
+						arr_print(in_arr, size);
 						break;
 					}
 					else {
 						mark_insert = false;
 					}
 				}
-				if (mark_insert == true) {
-					std::cout << i + 1 << "号位数字插入位置：" << pos_insert + 1 << std::endl;
-					int insert_num = in_arr[j];
-					for (int k = j; k > pos_insert; k -= len) {
-						in_arr[k] = in_arr[k - len];
-					}
-					in_arr[pos_insert] = insert_num;
-					std::cout << "插入后数组：";
-					arr_print(in_arr, size);
-				}
-				else {
+				//输出判断信息，便于理解
+				if (mark_insert != true) {
 					std::cout << "该位置数字为已排列数组中最大值，不执行插入操作。" << std::endl;
 				}
 			}
@@ -123,7 +125,6 @@ void bubbleSort(int* in_arr, int size) {
 3、从1中替换元素位置开始重复1的操作，从2中替换元素位置重复2的操作，直到左边指针大于右边指针。
 4、第一轮排序完毕，数组分为两个待排序数组，对这两个数组重复1-3的操作。
 */
-
 void quickSort(int* in_arr, int l, int r, int size) {
 	if (l < r) {
 		int i = l, j = r, compare = in_arr[l];
@@ -299,15 +300,15 @@ int main()
 		in_arr[i] = (rand() % 100);
 	}
 	arr_print(in_arr, arr_size);
-	straightInsertSort(in_arr, arr_size);
-	//shellSort(in_arr, arr_size);
+	//straightInsertSort(in_arr, arr_size);
+	shellSort(in_arr, arr_size);
 	//bubbleSort(in_arr, arr_size);
 	//quickSort(in_arr, 0, arr_size - 1, arr_size);
 	//selectSort(in_arr, arr_size);
 	//heapBuild(in_arr, 0, arr_size);
 	//heapBuild(in_arr, arr_size);
 	//heapOfLeftArr(in_arr, 0, arr_size);
-	heapSort(in_arr, arr_size);
+	//heapSort(in_arr, arr_size);
 	//mergeSort(in_arr, arr_size);
 	std::cout << std::endl << "最终排序结果：" << std::endl;
 	arr_print(in_arr, arr_size);
